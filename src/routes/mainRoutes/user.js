@@ -1,18 +1,9 @@
-const express = require('express');
-const { signup } = require('../../controllers/user');
-const User = require('../../models/User');
-
+const express = require("express");
+const { requireSignin } = require("../../controllers/auth");
+const { me } = require("../../controllers/user");
 
 const router = express.Router();
 
-
-router.post('/signin', (req, res) => {
-    res.status(201).json({
-        message: 'User signed in',
-        body: req.body
-    })
-});
-router.post('/signup', signup);
-
+router.get('/me',requireSignin,me)
 
 module.exports = router;

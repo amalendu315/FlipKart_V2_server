@@ -59,6 +59,10 @@ userSchema.virtual('password').set(function(password){
     this.hash_password = bcrypt.hashSync(password, genSalt)
 })
 
+userSchema.virtual('fullname').get(function(){
+  return `${this.firstname} ${this.lastname}`
+})
+
 userSchema.methods = {
     authenticate: function(password){
         return bcrypt.compareSync(password, this.hash_password)

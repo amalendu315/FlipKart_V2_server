@@ -1,40 +1,22 @@
-const User = require("../models/User")
+const User = require("../models/User");
 
-exports.signup = (req, res) => {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (user)
-      return res.status(401).json({
-        message: "User already registered",
-      });
-
-    const {
-      firstname,
-      lastname,
-      email,
-      password,
-      username,
-      phoneNumber,
-      role,
-    } = req.body;
-
-    const _user = new User({
-      firstname,
-      lastname,
-      email,
-      password,
-      username,
-      phoneNumber,
-      role,
-    });
-    _user.save((err, data) => {
-      if (err)
+exports.me = (req, res) => {
+    User.findOne({ _id: req.user._id }).exec((err, user) => {
+        if (err)
         return res.status(500).json({
-          message: `${err.message}`,
+            message: `${err.message}`,
         });
-      res.status(201).json({
-        success: true,
-        message: "User Created Successfully.",
-      });
+        const { fullname, email, role, username, phoneNumber, profilePicture } = user;
+        res.status(200).json({
+          success: true,
+          user: {
+            fullname,
+            email,
+            role,
+            username,
+            phoneNumber,
+            profilePicture,
+          },
+        });
     });
-  });
 };
