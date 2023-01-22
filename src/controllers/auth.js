@@ -9,7 +9,7 @@ exports.signup = (req, res) => {
       });
 
     const {
-      firstname,
+      firstname, 
       lastname,
       email,
       password,
